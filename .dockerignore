@@ -1,0 +1,8 @@
+.git
+jenkins_home
+reports
+__pycache__
+*.pyc
+.venv
+node_modules
+k8s
