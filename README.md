@@ -9,4 +9,4 @@ grid carbon intensity is above `CARBON_THRESHOLD`, the deploy is **blocked/defer
     bash scripts/gate.sh
 
 ## Pipeline
-Jenkins → Pipeline script from SCM → this repo → `Jenkinsfile`
+Jenkins → Pipeline script from SCM → this repo → `Jenkinsfile` 
