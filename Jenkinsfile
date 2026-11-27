@@ -5,8 +5,7 @@ pipeline {
     IMAGE     = "greengate"
     TAG       = "${env.BUILD_NUMBER}"
     CONTAINER = "greengate-ci"
-    THRESHOLD = "1000"          // relaxed for demo; set 50 to watch the gate FAIL
-    REGISTRY  = "docker.io/YOUR_DOCKERHUB_USER"
+    THRESHOLD = "1000"  // Set to 50 to watch the gate FAIL
   }
 
   options {
@@ -17,57 +16,44 @@ pipeline {
 
   stages {
     stage('Checkout') {
-      steps { sh 'git rev-parse --short HEAD && git log -1 --pretty=%s' }
+      steps { bat 'git rev-parse --short HEAD' }
     }
 
     stage('Lint') {
       steps {
-        sh 'docker run --rm -v "$PWD":/app -w /app python:3.12-slim sh -c "pip install -q ruff && ruff check app"'
+        bat 'docker run --rm -v "%cd%":/app -w /app python:3.12-slim sh -c "pip install -q ruff && ruff check app"'
       }
     }
 
     stage('Build Image') {
-      steps { sh './scripts/build.sh' }
+      steps { bat 'bash scripts/build.sh' }
     }
 
     stage('Unit Test') {
-      steps { sh './scripts/test.sh' }
+      steps { bat 'bash scripts/test.sh' }
       post { always { junit allowEmptyResults: true, testResults: 'reports/junit.xml' } }
     }
 
     stage('Run Container') {
-      steps { sh './scripts/run.sh' }
+      steps { bat 'bash scripts/run.sh' }
     }
 
     stage('Carbon Gate') {
-      steps { sh './scripts/gate.sh' }
-    }
-
-    stage('Push Image') {
-      when { branch 'main' }
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                          usernameVariable: 'DOCKER_USER',
-                          passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-          sh './scripts/push.sh'
-        }
-      }
+      steps { bat 'bash scripts/gate.sh' }
     }
 
     stage('Deploy') {
-      when { branch 'main' }
-      steps { sh './scripts/deploy.sh' }
+      steps { bat 'bash scripts/deploy.sh' }
     }
 
     stage('Smoke Test') {
-      steps { sh './scripts/smoke.sh' }
+      steps { bat 'bash scripts/smoke.sh' }
     }
   }
 
   post {
     always {
-      sh 'docker rm -f greengate-ci || true'
+      bat 'docker rm -f greengate-ci || exit 0'
     }
     success { echo '✅ Pipeline succeeded — deploy approved' }
     failure { echo '❌ Pipeline failed — check the Carbon Gate stage' }
