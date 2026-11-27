@@ -51,9 +51,10 @@ pipeline {
     }
   }
 
-  post {
+    post {
     always {
-      bat 'set "PATH=%PATH%;C:\\Users\\blhar\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin" && docker rm -f greengate-ci || exit 0'
+      bat 'docker rm -f greengate-ci || exit 0'
+      bat 'docker rm -f greengate || exit 0'
     }
     success { echo '✅ Pipeline succeeded — deploy approved' }
     failure { echo '❌ Pipeline failed — check the Carbon Gate stage' }
