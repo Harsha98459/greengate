@@ -26,28 +26,28 @@ pipeline {
     }
 
     stage('Build Image') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/build.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/build.sh' }
     }
 
     stage('Unit Test') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/test.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/test.sh' }
       post { always { junit allowEmptyResults: true, testResults: 'reports/junit.xml' } }
     }
 
     stage('Run Container') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/run.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/run.sh' }
     }
 
     stage('Carbon Gate') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/gate.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/gate.sh' }
     }
 
     stage('Deploy') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/deploy.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/deploy.sh' }
     }
 
     stage('Smoke Test') {
-      steps { bat '"C:\\Users\\blhar\\AppData\\Local\\Microsoft\\WindowsApps\\bash.exe" scripts/smoke.sh' }
+      steps { bat '"C:\\Program Files\\Git\\bin\\bash.exe" scripts/smoke.sh' }
     }
   }
 
