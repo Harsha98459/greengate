@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+# Stop Git Bash from mangling Docker paths
+export MSYS_NO_PATHCONV=1
+
 IMAGE="${IMAGE:-greengate}"; TAG="${TAG:-latest}"
 mkdir -p reports
 
