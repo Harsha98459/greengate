@@ -19,7 +19,7 @@ def health():
     return {
         "status": "ok",
         "service": "greengate",
-        "time": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "time": datetime.datetime.now(datetime.UTC).isoformat(),
     }
 
 
