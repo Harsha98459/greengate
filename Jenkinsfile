@@ -5,7 +5,7 @@ pipeline {
     IMAGE     = "greengate"
     TAG       = "${env.BUILD_NUMBER}"
     CONTAINER = "greengate-ci"
-    THRESHOLD = "50" 
+    THRESHOLD = "1000"  
   }
 
   options {
