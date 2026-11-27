@@ -2,9 +2,6 @@ pipeline {
   agent any
 
   environment {
-    // TELL JENKINS WHERE DOCKER AND GIT ARE LOCATED
-    PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Program Files\\Git\\bin;C:\\Program Files\\Git\\usr\\bin;${env.PATH}"
-    
     IMAGE     = "greengate"
     TAG       = "${env.BUILD_NUMBER}"
     CONTAINER = "greengate-ci"
